@@ -6,6 +6,7 @@ const port = 3000;
 const examGroupRoute = require('./routes/exam-group');
 const getExamsRoute = require('./routes/addget');  
 const postExamsRoute = require('./routes/addpost');  
+const putExamsRoute = require('./routes/addput');  
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use('/api', examGroupRoute);
 app.use('/api', getExamsRoute);
 app.use('/api', postExamsRoute);
+app.use('/api', putExamsRoute);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
