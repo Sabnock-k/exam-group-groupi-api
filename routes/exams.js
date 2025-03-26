@@ -1,9 +1,13 @@
+
+// Patiño
+// Combined all the codes provide by my groupmates
 const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
 const router = express.Router();
 
+// Tinga
 // Middleware to parse request body
 app.use(bodyParser.json());
 
@@ -20,6 +24,7 @@ router.get('/addget', (req, res) => {
   res.json(list);
 });
 
+// Caumeran
 // POST /addpost - Add a new exam
 router.post('/addpost', (req, res) => {
   const { name } = req.body;
@@ -37,6 +42,7 @@ router.post('/addpost', (req, res) => {
   res.status(201).json(newExam);
 });
 
+// Dimarucut
 // PUT /addput/:id - Update an existing exam
 router.put('/addput/:id', (req, res) => {
   const { id } = req.params;
