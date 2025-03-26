@@ -20,10 +20,10 @@ Base url
 http://localhost:3000/api
 
 1. Get All Exams
-GET /api/addget
+GET /api/exams
 
 2. Add a New Exam
-POST /api/addpost
+POST /api/exams
 
 3. Update an Existing Exam
-PUT /api/addput/:id
+PUT /api/exams:id

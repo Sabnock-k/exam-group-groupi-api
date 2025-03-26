@@ -1,5 +1,11 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
 const router = express.Router();
+
+// Middleware to parse request body
+app.use(bodyParser.json());
 
 // Hardcoded list of users (for example, exams)
 const list = [
@@ -9,13 +15,13 @@ const list = [
   { id: 4, name: "John" }
 ];
 
-// Define the /addget route
+// GET /addget - Retrieve the list of exams
 router.get('/addget', (req, res) => {
   res.json(list);
 });
 
-// POST /exams - Add a new exam
-router.post('/exams', (req, res) => {
+// POST /addpost - Add a new exam
+router.post('/addpost', (req, res) => {
   const { name } = req.body;
   
   if (!name) {
@@ -49,4 +55,11 @@ router.put('/addput/:id', (req, res) => {
   res.json(list[examIndex]);
 });
 
-module.exports = router;
+// Use the router
+app.use('/exams', router);
+
+// Start the server
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});

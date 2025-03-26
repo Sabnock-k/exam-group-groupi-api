@@ -1,22 +1,67 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const app = express();
 const port = 3000;
 
-// Import routes
-const examGroupRoute = require('./routes/exam-group');
-const getExamsRoute = require('./routes/addget');  
-const postExamsRoute = require('./routes/addpost');  
-const putExamsRoute = require('./routes/addput');  
-
 // Middleware to parse JSON
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Use the routes
-app.use('/api', examGroupRoute);
-app.use('/api', getExamsRoute);
-app.use('/api', postExamsRoute);
-app.use('/api', putExamsRoute);
+// Hardcoded list of users (for example, exams)
+const list = [
+  { id: 1, name: "Rafael" },
+  { id: 2, name: "Damien" },
+  { id: 3, name: "Stanley" },
+  { id: 4, name: "John" }
+];
 
+// Define the /exams route group
+const router = express.Router();
+
+// GET /api/exams - Retrieve the list of exams
+router.get('/', (req, res) => {
+  res.json(list);
+});
+
+// POST /api/exams - Add a new exam
+router.post('/', (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ message: 'Name is required.' });
+  }
+
+  const newExam = {
+    id: list.length + 1,
+    name
+  };
+
+  list.push(newExam);
+  res.status(201).json(newExam);
+});
+
+// PUT /api/exams/:id - Update an existing exam
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  const examIndex = list.findIndex(exam => exam.id === parseInt(id));
+
+  if (examIndex === -1) {
+    return res.status(404).json({ message: 'Exam not found.' });
+  }
+
+  if (!name) {
+    return res.status(400).json({ message: 'Name is required.' });
+  }
+
+  list[examIndex].name = name;
+  res.json(list[examIndex]);
+});
+
+// Use the /api/exams route
+app.use('/api/exams', router);
+
+// Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
